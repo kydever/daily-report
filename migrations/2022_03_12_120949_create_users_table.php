@@ -22,6 +22,11 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name', 32)->comment('姓名');
+            $table->string('mobile', 16)->comment('手机号');
+            $table->string('email', 64)->comment('邮箱');
+            $table->string('avatar_url', 256)->comment('头像');
+            $table->string('open_id', 64)->index('INDEX_OPEN_ID');
             $table->timestamps();
         });
     }

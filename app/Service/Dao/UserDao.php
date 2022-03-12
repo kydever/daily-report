@@ -28,6 +28,29 @@ class UserDao extends Service
         return User::query()->where('open_id', $openId)->first();
     }
 
+    /**
+     * @param $input = [
+     *     'name' => '',
+     *     'mobile' => '',
+     *     'email' => '',
+     *     'avatar_url' => '',
+     *     'open_id' => '',
+     * ]
+     */
+    public function firstOrCreate(array $input = []): User
+    {
+        $openId = $input['open_id'];
+        $model = $this->firstByOpenId($openId);
+        if (empty($model)) {
+            $model = new User();
+            $model->open_id = $openId;
+        }
+
+        $model->fill($input);
+        $model->save();
+        return $model;
+    }
+
     public function first(int $id, bool $throw = false): ?User
     {
         $model = User::findFromCache($id);

@@ -13,6 +13,11 @@ namespace App\Model;
 
 /**
  * @property int $id
+ * @property string $name
+ * @property string $mobile
+ * @property string $email
+ * @property string $avatar_url
+ * @property string $open_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -26,7 +31,7 @@ class User extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'created_at', 'updated_at'];
+    protected array $fillable = ['id', 'name', 'mobile', 'email', 'avatar_url', 'open_id', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast to native types.

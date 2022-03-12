@@ -39,3 +39,7 @@ sudo gitlab-runner register -n \
 --docker-pull-policy "if-not-present"
 ```
 
+## 测试飞书授权
+
+http://127.0.0.1:9501/oauth/authorize?redirect_uri=http://127.0.0.1:9501/oauth/login
+

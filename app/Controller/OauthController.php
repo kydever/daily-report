@@ -39,9 +39,7 @@ class OauthController extends Controller
 
         $result = $this->feishu->getApplication()->oauth->getUserInfo($code);
 
-        $openId = $result['open_id'];
-
-        $user = $this->dao->firstByOpenId($openId);
+        $user = $this->dao->firstOrCreate($result);
 
         $token = UserAuth::instance()->init($user)->getToken();
 
