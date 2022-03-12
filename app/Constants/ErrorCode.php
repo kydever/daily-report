@@ -21,4 +21,19 @@ class ErrorCode extends AbstractConstants
      * @Message("Server Error")
      */
     public const SERVER_ERROR = 500;
+
+    /**
+     * @Message("Token 已失效")
+     */
+    public const TOKEN_INVALID = 700;
+
+    /**
+     * @Message("越权操作")
+     */
+    public const OPERATION_INVALID = 701;
+
+    /**
+     * @Message("参数非法")
+     */
+    public const PARAMS_INVALID = 1000;
 }
