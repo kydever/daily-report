@@ -48,8 +48,14 @@ class ReportService extends Service
             return false;
         }
 
+        $report = $this->dao->firstOrCreate($userId);
+
         if ($model->user_id !== $userId) {
             throw new BusinessException(ErrorCode::PERMISSION_INVALID);
+        }
+
+        if ($model->report_id !== $report->id) {
+            throw new BusinessException(ErrorCode::REPORT_ITEM_CANNOT_UPDATE);
         }
 
         return $model->delete();
@@ -57,11 +63,14 @@ class ReportService extends Service
 
     public function addItem(int $id, int $userId, string $project, string $module, string $summary, string $beginTime, string $endTime): ReportItem
     {
+        $report = $this->dao->firstOrCreate($userId);
         if ($id === 0) {
-            $report = $this->dao->firstOrCreate($userId);
             $model = $this->item->new($userId, $report->id);
         } else {
             $model = $this->item->first($id, true);
+            if ($model->report_id !== $report->id) {
+                throw new BusinessException(ErrorCode::REPORT_ITEM_CANNOT_UPDATE);
+            }
         }
 
         if ($model->user_id !== $userId) {
