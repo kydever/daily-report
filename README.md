@@ -68,17 +68,17 @@ http://127.0.0.1:9501/oauth/authorize?redirect_uri=http://127.0.0.1:9501/oauth/l
 
 - 出参
 
-| 参数                 | 类型      | 备注      |
-|--------------------|---------|---------|
-| *.id               | Integer | 日报ID    |
-| *.dt                 | String  | 日期      |
-| *.items              | Array   | 日报条目    |
-| *.items.*.project    | String  | 项目名     |
-| *.items.*.module     | String  | 模块名     |
-| *.items.*.summary    | String  | 工作内容    |
-| *.items.*.begin_time | String  | 开始时间    |
-| *.items.*.end_time   | String  | 结束时间    |
-| *.items.*.used_time  | Integer | 时间消耗（秒） |
+| 参数                    | 类型      | 备注      |
+|-----------------------|---------|---------|
+| *.id                  | Integer | 日报ID    |
+| *.dt                  | String  | 日期      |
+| *.items               | Array   | 日报条目    |
+| \*.items.*.project    | String  | 项目名     |
+| \*.items.*.module     | String  | 模块名     |
+| \*.items.*.summary    | String  | 工作内容    |
+| \*.items.*.begin_time | String  | 开始时间    |
+| \*.items.*.end_time   | String  | 结束时间    |
+| \*.items.*.used_time  | Integer | 时间消耗（秒） |
 
 ### 删除日报条目
 
