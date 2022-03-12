@@ -42,6 +42,7 @@ jobs:
       - name: Run Test Cases
         run: |
           cp .env.example .env
+          php bin/hyperf.php migrate
           vendor/bin/php-cs-fixer fix --dry-run
           composer analyse
           composer test
