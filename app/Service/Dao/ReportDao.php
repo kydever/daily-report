@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Service\Dao;
 
 use App\Model\Report;
+use Carbon\Carbon;
 use Han\Utils\Service;
 
 class ReportDao extends Service
@@ -21,5 +22,19 @@ class ReportDao extends Service
         return Report::query()->where('user_id', $userId)
             ->where('dt', $date ?? date('Y-m-d'))
             ->first();
+    }
+
+    public function firstOrCreate(int $userId): Report
+    {
+        $model = $this->firstByUserId($userId);
+        if (empty($model)) {
+            $model = new Report();
+            $model->user_id = $userId;
+            $model->dt = Carbon::now()->toDateString();
+            $model->score = 0;
+            $model->save();
+        }
+
+        return $model;
     }
 }

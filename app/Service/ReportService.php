@@ -31,7 +31,7 @@ class ReportService extends Service
     public function addItem(int $id, int $userId, string $project, string $module, string $summary, string $beginTime, string $endTime): ReportItem
     {
         if ($id === 0) {
-            $report = $this->dao->firstByUserId($userId);
+            $report = $this->dao->firstOrCreate($userId);
             $model = $this->item->new($userId, $report->id);
         } else {
             $model = $this->item->first($id, true);
@@ -47,8 +47,8 @@ class ReportService extends Service
         $model->project = $project;
         $model->module = $module;
         $model->summary = $summary;
-        $model->begin_time = $beginTime->format('i:s');
-        $model->end_time = $endTime?->format('i:s');
+        $model->begin_time = $beginTime->format('H:i');
+        $model->end_time = $endTime?->format('H:i');
         $model->used_time = ($endTime?->getTimestamp() ?? $beginTime->getTimestamp()) - $beginTime->getTimestamp();
         $model->save();
 
