@@ -27,6 +27,16 @@ services:
       APP_ENV: "${APP_ENV:-prod}"
       DB_HOST: "mysql"
       REDIS_HOST: "redis"
+      JIEBA_HOST: "jieba"
+    networks:
+      - net
+    restart: "always"
+    deploy:
+      replicas: 1
+  jieba:
+    image: "limingxinleo/php-jieba:latest"
+    environment:
+      APP_ENV: "${APP_ENV:-prod}"
     networks:
       - net
     restart: "always"
