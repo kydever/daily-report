@@ -40,6 +40,8 @@ jobs:
       - name: Setup Packages
         run: composer update -o
       - name: Run Test Cases
+        env:
+          DEV_AUTH_DEBUG: (true)
         run: |
           cp .env.example .env
           php bin/hyperf.php migrate
