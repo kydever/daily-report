@@ -18,6 +18,7 @@ namespace App\Model;
  * @property int $score
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property \Hyperf\Database\Model\Collection|ReportItem[] $items
  */
 class Report extends Model
 {
@@ -35,4 +36,9 @@ class Report extends Model
      * The attributes that should be cast to native types.
      */
     protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'score' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function items()
+    {
+        return $this->hasMany(ReportItem::class, 'report_id', 'id');
+    }
 }

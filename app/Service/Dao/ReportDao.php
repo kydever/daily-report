@@ -17,6 +17,15 @@ use Han\Utils\Service;
 
 class ReportDao extends Service
 {
+    public function find(int $userId, int $offset = 0, int $limit = 5)
+    {
+        $query = Report::query()
+            ->where('user_id', $userId)
+            ->orderBy('id', 'desc');
+
+        return $this->factory->model->query($query, $offset, $limit);
+    }
+
     public function firstByUserId(int $userId, ?string $date = null): ?Report
     {
         return Report::query()->where('user_id', $userId)

@@ -16,6 +16,7 @@ use App\Exception\BusinessException;
 use App\Model\ReportItem;
 use App\Service\Dao\ReportDao;
 use App\Service\Dao\ReportItemDao;
+use App\Service\Formatter\ReportFormatter;
 use Han\Utils\Service;
 use Hyperf\Di\Annotation\Inject;
 use function Han\Utils\date_load;
@@ -27,6 +28,18 @@ class ReportService extends Service
 
     #[Inject]
     protected ReportItemDao $item;
+
+    #[Inject]
+    protected ReportFormatter $formatter;
+
+    public function find(int $userId, int $offset = 0, int $limit = 5): array
+    {
+        $models = $this->dao->find($userId, $offset, $limit);
+
+        $models->load('items');
+
+        return $this->formatter->formatList($models);
+    }
 
     public function addItem(int $id, int $userId, string $project, string $module, string $summary, string $beginTime, string $endTime): ReportItem
     {

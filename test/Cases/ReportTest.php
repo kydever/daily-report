@@ -27,6 +27,13 @@ class ReportTest extends HttpTestCase
         $this->assertSame('10:00', $carbon->format('H:i'));
     }
 
+    public function testIndex()
+    {
+        $res = $this->get('/report');
+
+        $this->assertSame(0, $res['code']);
+    }
+
     public function testAddItem()
     {
         $res = $this->json('/report/item', [

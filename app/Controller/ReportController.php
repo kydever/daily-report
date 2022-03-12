@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use App\Request\PaginationRequest;
 use App\Request\SaveReportItemRequest;
 use App\Service\ReportService;
 use Hyperf\Di\Annotation\Inject;
@@ -19,6 +20,15 @@ class ReportController extends Controller
 {
     #[Inject]
     protected ReportService $service;
+
+    public function index(PaginationRequest $request)
+    {
+        $userId = get_user_id();
+
+        $list = $this->service->find($userId, $request->offset(), $request->limit());
+
+        return $this->response->success($list);
+    }
 
     public function addItem(SaveReportItemRequest $request)
     {
