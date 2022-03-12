@@ -20,6 +20,7 @@ namespace App\Model;
  * @property string $summary
  * @property string $begin_time
  * @property string $end_time
+ * @property int $used_time
  * @property string $extra
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -34,10 +35,10 @@ class ReportItem extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected array $fillable = ['id', 'user_id', 'report_id', 'project', 'module', 'summary', 'begin_time', 'end_time', 'extra', 'created_at', 'updated_at'];
+    protected array $fillable = ['id', 'user_id', 'report_id', 'project', 'module', 'summary', 'begin_time', 'end_time', 'used_time', 'extra', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast to native types.
      */
-    protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'report_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+    protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'report_id' => 'integer', 'used_time' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }

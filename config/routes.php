@@ -13,6 +13,8 @@ use Hyperf\HttpServer\Router\Router;
 
 Router::addRoute(['GET', 'POST', 'HEAD'], '/', 'App\Controller\IndexController::index');
 
-Router::get('/oauth/authorize', App\Controller\OauthController::class . '::authorize');
-Router::get('/oauth/login', App\Controller\OauthController::class . '::login');
-Router::post('/oauth/login', App\Controller\OauthController::class . '::login');
+Router::get('/oauth/authorize', [App\Controller\OauthController::class, 'authorize']);
+Router::get('/oauth/login', [App\Controller\OauthController::class, 'login']);
+Router::post('/oauth/login', [App\Controller\OauthController::class, 'login']);
+
+Router::post('/report/item', [App\Controller\ReportController::class, 'addItem']);

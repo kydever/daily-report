@@ -29,6 +29,7 @@ class CreateReportItemsTable extends Migration
             $table->string('summary', 1024)->default('')->comment('工作详情');
             $table->string('begin_time', 5)->comment('工作开始时间');
             $table->string('end_time', 5)->nullable()->comment('工作结束时间');
+            $table->unsignedInteger('used_time')->default(0)->comment('耗时');
             $table->json('extra')->nullable()->comment('额外信息');
             $table->timestamps();
         });

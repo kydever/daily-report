@@ -30,7 +30,7 @@ class ErrorCode extends AbstractConstants
     /**
      * @Message("越权操作")
      */
-    public const OPERATION_INVALID = 701;
+    public const PERMISSION_INVALID = 701;
 
     /**
      * @Message("参数非法")
@@ -41,4 +41,9 @@ class ErrorCode extends AbstractConstants
      * @Message("用户不存在")
      */
     public const USER_NOT_EXIST = 1100;
+
+    /**
+     * @Message("当前任务不存在")
+     */
+    public const REPORT_ITEM_NOT_EXIST = 1200;
 }
