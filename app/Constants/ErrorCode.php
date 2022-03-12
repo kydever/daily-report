@@ -36,4 +36,9 @@ class ErrorCode extends AbstractConstants
      * @Message("参数非法")
      */
     public const PARAMS_INVALID = 1000;
+
+    /**
+     * @Message("用户不存在")
+     */
+    public const USER_NOT_EXIST = 1100;
 }
