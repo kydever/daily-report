@@ -18,4 +18,5 @@ Router::get('/oauth/login', [App\Controller\OauthController::class, 'login']);
 Router::post('/oauth/login', [App\Controller\OauthController::class, 'login']);
 
 Router::post('/report/item', [App\Controller\ReportController::class, 'addItem']);
+Router::delete('/report/item/{id:\d+}', [App\Controller\ReportController::class, 'deleteItem']);
 Router::get('/report', [App\Controller\ReportController::class, 'index']);

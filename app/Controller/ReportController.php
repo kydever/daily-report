@@ -44,4 +44,13 @@ class ReportController extends Controller
 
         return $this->response->success($result);
     }
+
+    public function deleteItem(int $id)
+    {
+        $userId = get_user_id();
+
+        $result = $this->service->deleteItem($id, $userId);
+
+        return $this->response->success($result);
+    }
 }

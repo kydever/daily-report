@@ -41,6 +41,20 @@ class ReportService extends Service
         return $this->formatter->formatList($models);
     }
 
+    public function deleteItem(int $id, int $userId): bool
+    {
+        $model = $this->item->first($id, false);
+        if (! $model) {
+            return false;
+        }
+
+        if ($model->user_id !== $userId) {
+            throw new BusinessException(ErrorCode::PERMISSION_INVALID);
+        }
+
+        return $model->delete();
+    }
+
     public function addItem(int $id, int $userId, string $project, string $module, string $summary, string $beginTime, string $endTime): ReportItem
     {
         if ($id === 0) {
