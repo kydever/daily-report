@@ -13,6 +13,7 @@ namespace App\Controller;
 
 use App\Service\Dao\UserDao;
 use App\Service\FeishuService;
+use App\Service\Formatter\UserFormatter;
 use App\Service\UserAuth;
 use Hyperf\Di\Annotation\Inject;
 
@@ -23,6 +24,9 @@ class OauthController extends Controller
 
     #[Inject]
     protected UserDao $dao;
+
+    #[Inject]
+    protected UserFormatter $formatter;
 
     public function authorize()
     {
@@ -45,6 +49,7 @@ class OauthController extends Controller
 
         return $this->response->success([
             'token' => $token,
+            'user' => $this->formatter->base($user),
         ]);
     }
 }
