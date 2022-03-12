@@ -1,5 +1,7 @@
 # 日报系统
 
+[![PHPUnit for Hyperf](https://github.com/kydever/daily-report/actions/workflows/test.yml/badge.svg)](https://github.com/kydever/daily-report/actions/workflows/test.yml)
+
 ## 测试飞书授权
 
 http://127.0.0.1:9501/oauth/authorize?redirect_uri=http://127.0.0.1:9501/oauth/login
