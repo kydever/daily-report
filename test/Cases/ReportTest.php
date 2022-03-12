@@ -27,14 +27,7 @@ class ReportTest extends HttpTestCase
         $this->assertSame('10:00', $carbon->format('H:i'));
     }
 
-    public function testIndex()
-    {
-        $res = $this->get('/report');
-
-        $this->assertSame(0, $res['code']);
-    }
-
-    public function testAddItem()
+    public function testAddAndDeleteItem()
     {
         $res = $this->json('/report/item', [
             'id' => 0,
@@ -44,6 +37,16 @@ class ReportTest extends HttpTestCase
             'begin_time' => '10:00',
             'end_time' => '12:00',
         ]);
+
+        $this->assertSame(0, $res['code']);
+
+        $id = $res['data']['id'];
+
+        $res = $this->get('/report');
+
+        $this->assertSame(0, $res['code']);
+
+        $res = $this->delete('/report/item/' . $id);
 
         $this->assertSame(0, $res['code']);
     }

@@ -57,6 +57,8 @@ http://127.0.0.1:9501/oauth/authorize?redirect_uri=http://127.0.0.1:9501/oauth/l
 
 ### 我的日报列表
 
+> GET /report
+
 - 入参
 
 | 参数     | 类型    | 备注   |
@@ -78,4 +80,12 @@ http://127.0.0.1:9501/oauth/authorize?redirect_uri=http://127.0.0.1:9501/oauth/l
 | items.*.end_time   | String  | 结束时间    |
 | items.*.used_time  | Integer | 时间消耗（秒） |
 
+### 删除日报条目
 
+> DELETE /report/item/{id:\d+}
+
+- 入参
+
+| 参数     | 类型    | 备注     |
+|--------| ------- |--------|
+| id | Integer | 日报条目ID |
