@@ -10,3 +10,4 @@ vendor/
 .env
 .DS_Store
 *.cache
+docker-compose.deploy.yml
