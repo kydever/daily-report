@@ -14,6 +14,7 @@ namespace App\Exception\Handler;
 use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use App\Kernel\Http\Response;
+use App\Service\WeChatRobot;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Di\Exception\CircularDependencyException;
 use Hyperf\ExceptionHandler\ExceptionHandler;
@@ -52,7 +53,11 @@ class BusinessExceptionHandler extends ExceptionHandler
                 return $this->response->fail(ErrorCode::PARAMS_INVALID, $message);
         }
 
-        $this->logger->error(format_throwable($throwable));
+        $this->logger->error($text = format_throwable($throwable));
+
+        if ($key = env('WORK_WECHAT_ROBOT_KEY')) {
+            di()->get(WeChatRobot::class)->sendText($key, $text);
+        }
 
         return $this->response->fail(ErrorCode::SERVER_ERROR, 'Server Error');
     }
