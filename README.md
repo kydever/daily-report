@@ -2,7 +2,9 @@
 
 [![PHPUnit for Hyperf](https://github.com/kydever/daily-report/actions/workflows/test.yml/badge.svg)](https://github.com/kydever/daily-report/actions/workflows/test.yml)
 
-## 测试飞书授权
+## 测试授权
+
+支持 `飞书` 和 `企业微信`，可以通过修改配置 `oauth` 进行调整。
 
 http://127.0.0.1:9501/oauth/authorize?redirect_uri=http://127.0.0.1:9501/oauth/login
 
