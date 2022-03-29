@@ -42,6 +42,15 @@ services:
     restart: "always"
     deploy:
       replicas: 1
+  frontend:
+    image: "hyperf/frontend:latest"
+    build:
+      context: './frontend'
+    ports:
+      - "8080:8080"
+    networks:
+      - net
+    restart: "always"
 networks:
   net:
 volumes:
