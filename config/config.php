@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+use App\Constants\OAuth;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Psr\Log\LogLevel;
 
@@ -16,6 +17,7 @@ return [
     'app_name' => env('APP_NAME', 'skeleton'),
     'app_env' => env('APP_ENV', 'dev'),
     'scan_cacheable' => env('SCAN_CACHEABLE', false),
+    'oauth' => OAuth::FEISHU,
     StdoutLoggerInterface::class => [
         'log_level' => [
             LogLevel::ALERT,
