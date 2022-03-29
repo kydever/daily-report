@@ -14,7 +14,8 @@ return [
         'corp_id' => env('WORK_WECHAT_CORP_ID'),
         'agent_id' => (int) env('WORK_WECHAT_AGENT_ID'),
         'secret' => env('WORK_WECHAT_SECRET'),
-        'token' => '',
-        'encodingAESKey' => '',
+        'oauth' => [
+            'redirect_url' => '',
+        ],
     ],
 ];

@@ -11,10 +11,13 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use App\Constants\OAuth;
 use App\Service\Dao\UserDao;
 use App\Service\FeishuService;
 use App\Service\Formatter\UserFormatter;
 use App\Service\UserAuth;
+use App\Service\WeChatService;
+use Hyperf\Config\Annotation\Value;
 use Hyperf\Di\Annotation\Inject;
 
 class OauthController extends Controller
@@ -28,20 +31,31 @@ class OauthController extends Controller
     #[Inject]
     protected UserFormatter $formatter;
 
+    #[Inject]
+    protected WeChatService $work;
+
+    #[Value(key: 'oauth')]
+    protected int $oauth;
+
     public function authorize()
     {
         $url = $this->request->input('redirect_uri');
+        $redirectUrl = match ($this->oauth) {
+            OAuth::FEISHU => $this->feishu->getApplication()->oauth->authorize($url),
+            OAuth::WORK_WECHAT => $this->work->authorize($url),
+        };
 
-        return $this->response->redirect(
-            $this->feishu->getApplication()->oauth->authorize($url)
-        );
+        return $this->response->redirect($redirectUrl);
     }
 
     public function login()
     {
         $code = $this->request->input('code');
 
-        $result = $this->feishu->getApplication()->oauth->getUserInfo($code);
+        $result = match ($this->oauth) {
+            OAuth::FEISHU => $this->feishu->getApplication()->oauth->getUserInfo($code),
+            OAuth::WORK_WECHAT => $this->work->getUserInfo($code),
+        };
 
         $user = $this->dao->firstOrCreate($result);
 

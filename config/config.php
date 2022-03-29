@@ -17,7 +17,7 @@ return [
     'app_name' => env('APP_NAME', 'skeleton'),
     'app_env' => env('APP_ENV', 'dev'),
     'scan_cacheable' => env('SCAN_CACHEABLE', false),
-    'oauth' => OAuth::FEISHU,
+    'oauth' => OAuth::WORK_WECHAT,
     StdoutLoggerInterface::class => [
         'log_level' => [
             LogLevel::ALERT,
