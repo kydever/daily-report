@@ -47,6 +47,9 @@ class ReportItem extends Model
 
     public function saved(Saved $event)
     {
-        di()->get(ReportService::class)->sendReportToWorkBench($this->user_id);
+        $userId = $this->user_id;
+        go(static function () use ($userId) {
+            di()->get(ReportService::class)->sendReportToWorkBench($userId);
+        });
     }
 }
