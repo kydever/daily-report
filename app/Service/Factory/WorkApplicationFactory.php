@@ -13,6 +13,7 @@ namespace App\Service\Factory;
 
 use EasyWeChat\Work\Application;
 use Hyperf\Contract\ConfigInterface;
+use Hyperf\HttpServer\Contract\RequestInterface;
 use Psr\Container\ContainerInterface;
 
 class WorkApplicationFactory
@@ -21,6 +22,8 @@ class WorkApplicationFactory
     {
         $config = $container->get(ConfigInterface::class)->get('wechat.default', []);
 
-        return new Application($config);
+        return tap(new Application($config), static function (Application $application) {
+            $application->setRequest(di()->get(RequestInterface::class));
+        });
     }
 }
