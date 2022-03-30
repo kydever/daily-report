@@ -133,7 +133,11 @@ class ReportService extends Service
         $data = explode(PHP_EOL, $content);
         $data = array_filter($data);
         if (count($data) === 6 && array_shift($data) === '日报') {
-            di()->get(ReportService::class)->addItem(0, $user->id, ...$data);
+            $model = di()->get(ReportService::class)->addItem(0, $user->id, ...$data);
+            if ($model->id > 0) {
+                // 创建成功
+                di()->get(WeChatService::class)->sendText($user->open_id, '收到了您的日报，请继续为KY创造价值吧。');
+            }
         }
     }
 }

@@ -95,6 +95,22 @@ class WeChatService extends Service
         }
     }
 
+    public function sendText(string $openId, string $content): void
+    {
+        $res = $this->application->getClient()->post('/cgi-bin/message/send', [
+            RequestOptions::JSON => [
+                'msgtype' => 'text',
+                'agentid' => $this->getAgentId(),
+                'content' => $content,
+                'touser' => $openId,
+            ],
+        ])->toArray();
+
+        if ($res['errcode'] !== 0) {
+            throw new BusinessException(ErrorCode::SERVER_ERROR, $res['errmsg']);
+        }
+    }
+
     public function setWorkBenchData(string $userId, int $todayCount, int $weekCount, int $monthCount)
     {
         $res = $this->application->getClient()->post('/cgi-bin/agent/set_workbench_data', [
