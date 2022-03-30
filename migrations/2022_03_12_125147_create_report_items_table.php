@@ -22,7 +22,7 @@ class CreateReportItemsTable extends Migration
     {
         Schema::create('report_items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->default(0)->index('INDEX_USER_ID')->comment('用户ID');
+            $table->unsignedBigInteger('user_id')->default(0)->comment('用户ID');
             $table->unsignedBigInteger('report_id')->default(0)->index('INDEX_REPORT_ID')->comment('报告ID');
             $table->string('project', 32)->default('')->comment('项目');
             $table->string('module', 32)->default('')->comment('模块');
@@ -32,6 +32,8 @@ class CreateReportItemsTable extends Migration
             $table->unsignedInteger('used_time')->default(0)->comment('耗时');
             $table->json('extra')->nullable()->comment('额外信息');
             $table->timestamps();
+
+            $table->index(['user_id', 'created_at'], 'INDEX_USER_CREATED_AT');
         });
     }
 

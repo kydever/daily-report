@@ -11,9 +11,16 @@ declare(strict_types=1);
  */
 namespace App\Constants;
 
+use Hyperf\Contract\ConfigInterface;
+
 class OAuth
 {
     public const WORK_WECHAT = 1;
 
     public const FEISHU = 2;
+
+    public static function isWorkWechat(): bool
+    {
+        return di()->get(ConfigInterface::class)->get('oauth') === self::WORK_WECHAT;
+    }
 }

@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 namespace HyperfTest;
 
+use Hyperf\AsyncQueue\Environment;
 use Hyperf\Testing;
 use PHPUnit\Framework\TestCase;
 
@@ -38,5 +39,10 @@ abstract class HttpTestCase extends TestCase
     public function __call($name, $arguments)
     {
         return $this->client->{$name}(...$arguments);
+    }
+
+    protected function setUp(): void
+    {
+        di()->get(Environment::class)->setAsyncQueue(true);
     }
 }

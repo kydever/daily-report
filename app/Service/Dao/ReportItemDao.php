@@ -34,4 +34,12 @@ class ReportItemDao extends Service
         $model->report_id = $reportId;
         return $model;
     }
+
+    public function countByUserId(int $userId, string $beginAt): int
+    {
+        return ReportItem::query()
+            ->where('user_id', $userId)
+            ->where('created_at', '>=', $beginAt)
+            ->count();
+    }
 }

@@ -12,12 +12,16 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Constants\ErrorCode;
+use App\Constants\OAuth;
 use App\Exception\BusinessException;
 use App\Model\ReportItem;
 use App\Service\Dao\ReportDao;
 use App\Service\Dao\ReportItemDao;
+use App\Service\Dao\UserDao;
 use App\Service\Formatter\ReportFormatter;
+use Carbon\Carbon;
 use Han\Utils\Service;
+use Hyperf\AsyncQueue\Annotation\AsyncQueueMessage;
 use Hyperf\Di\Annotation\Inject;
 use function Han\Utils\date_load;
 
@@ -89,5 +93,31 @@ class ReportService extends Service
         $model->save();
 
         return $model;
+    }
+
+    #[AsyncQueueMessage(delay: 180)]
+    public function sendReportToWorkBench(int $userId): void
+    {
+        if (OAuth::isWorkWechat() && di()->get(WeChatService::class)->isEnable()) {
+            if ($user = di()->get(UserDao::class)->first($userId)) {
+                [$todayCount, $weekCount, $monthCount] = $this->getReportData($userId);
+
+                di()->get(WeChatService::class)->setWorkBenchData($user->open_id, $todayCount, $weekCount, $monthCount);
+            }
+        }
+    }
+
+    public function getReportData(int $userId): array
+    {
+        $now = Carbon::now();
+        $today = $now->clone()->startOfDay();
+        $week = $now->clone()->startOfWeek();
+        $month = $now->clone()->startOfMonth();
+
+        return [
+            $this->item->countByUserId($userId, $today->toDateTimeString()),
+            $this->item->countByUserId($userId, $week->toDateTimeString()),
+            $this->item->countByUserId($userId, $month->toDateTimeString()),
+        ];
     }
 }

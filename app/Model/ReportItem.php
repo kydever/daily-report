@@ -11,6 +11,9 @@ declare(strict_types=1);
  */
 namespace App\Model;
 
+use App\Service\ReportService;
+use Hyperf\Database\Model\Events\Saved;
+
 /**
  * @property int $id
  * @property int $user_id
@@ -41,4 +44,9 @@ class ReportItem extends Model
      * The attributes that should be cast to native types.
      */
     protected array $casts = ['id' => 'integer', 'user_id' => 'integer', 'report_id' => 'integer', 'used_time' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    public function saved(Saved $event)
+    {
+        di()->get(ReportService::class)->sendReportToWorkBench($this->user_id);
+    }
 }

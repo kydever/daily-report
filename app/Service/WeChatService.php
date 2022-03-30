@@ -27,6 +27,11 @@ class WeChatService extends Service
     #[Inject]
     protected ConfigInterface $config;
 
+    public function isEnable(): bool
+    {
+        return $this->config->get('wechat.default.agent_id') && $this->config->get('wechat.default.corp_id');
+    }
+
     public function authorize(string $url): string
     {
         return sprintf(
@@ -86,7 +91,7 @@ class WeChatService extends Service
         }
     }
 
-    public function setWorkBenchData(string $userId): bool
+    public function setWorkBenchData(string $userId, int $todayCount, int $weekCount, int $monthCount): bool
     {
         $res = $this->application->getClient()->post('/cgi-bin/agent/set_workbench_data', [
             RequestOptions::JSON => [
@@ -97,15 +102,15 @@ class WeChatService extends Service
                     'items' => [
                         [
                             'key' => '本日',
-                            'data' => '0',
+                            'data' => $todayCount,
                         ],
                         [
                             'key' => '本周',
-                            'data' => '0',
+                            'data' => $weekCount,
                         ],
                         [
                             'key' => '本月',
-                            'data' => '0',
+                            'data' => $monthCount,
                         ],
                     ],
                 ],
