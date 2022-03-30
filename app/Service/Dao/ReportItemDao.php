@@ -27,6 +27,11 @@ class ReportItemDao extends Service
         return $model;
     }
 
+    public function findByReportId(int $reportId)
+    {
+        return ReportItem::query()->where('report_id', $reportId)->get();
+    }
+
     public function new(int $userId, int $reportId): ReportItem
     {
         $model = new ReportItem();

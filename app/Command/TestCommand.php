@@ -11,7 +11,6 @@ declare(strict_types=1);
  */
 namespace App\Command;
 
-use App\Service\WeChatService;
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Command\Command as HyperfCommand;
 use Psr\Container\ContainerInterface;
@@ -32,6 +31,5 @@ class TestCommand extends HyperfCommand
 
     public function handle()
     {
-        di()->get(WeChatService::class)->setWorkBenchData('');
     }
 }

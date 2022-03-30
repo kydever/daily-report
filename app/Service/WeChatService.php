@@ -13,10 +13,12 @@ namespace App\Service;
 
 use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
+use App\Model\ReportItem;
 use EasyWeChat\Work\Application;
 use GuzzleHttp\RequestOptions;
 use Han\Utils\Service;
 use Hyperf\Contract\ConfigInterface;
+use Hyperf\Database\Model\Collection;
 use Hyperf\Di\Annotation\Inject;
 
 class WeChatService extends Service
@@ -87,6 +89,50 @@ class WeChatService extends Service
                         'data' => '0',
                     ],
                 ],
+            ],
+        ])->toArray();
+
+        if ($res['errcode'] !== 0) {
+            throw new BusinessException(ErrorCode::SERVER_ERROR, $res['errmsg']);
+        }
+    }
+
+    /**
+     * @param Collection<int, ReportItem> $items
+     */
+    public function sendCard(string $openId, Collection $items): void
+    {
+        $list = [];
+        foreach ($items as $item) {
+            $list[] = ['keyname' => $item->project, 'value' => $item->summary];
+        }
+        $res = $this->application->getClient()->post('/cgi-bin/message/send', [
+            RequestOptions::JSON => [
+                'msgtype' => 'template_card',
+                'agentid' => $this->getAgentId(),
+                'template_card' => [
+                    'card_type' => 'text_notice',
+                    'source' => [
+                        'icon_url' => 'https://avatars.githubusercontent.com/u/81892392?s=200&v=4',
+                        'desc' => '日报系统',
+                        'desc_color' => 1,
+                    ],
+                    'main_title' => [
+                        'title' => '日报列表',
+                        'desc' => '感谢您为 KY 的付出',
+                    ],
+                    'emphasis_content' => [
+                        'desc' => '今日完成任务',
+                        'title' => $items->count(),
+                    ],
+                    'sub_title_text' => '以下是已完成的任务列表',
+                    'horizontal_content_list' => $list,
+                    'card_action' => [
+                        'type' => 1,
+                        'url' => $this->config->get('frontend.base_uri'),
+                    ],
+                ],
+                'touser' => $openId,
             ],
         ])->toArray();
 

@@ -130,6 +130,14 @@ class ReportService extends Service
             $user = di()->get(UserDao::class)->firstOrCreate($result);
         }
 
+        if ($content === '我的日报') {
+            if ($model = di()->get(ReportDao::class)->firstByUserId($user->id)) {
+                $items = di()->get(ReportItemDao::class)->findTodayByUserId($model->id);
+                di()->get(WeChatService::class)->sendCard($user->open_id, $items);
+            }
+            return;
+        }
+
         $data = explode(PHP_EOL, $content);
         $data = array_filter($data);
         if (count($data) === 6 && array_shift($data) === '日报') {
