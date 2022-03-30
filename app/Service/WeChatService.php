@@ -32,13 +32,14 @@ class WeChatService extends Service
         return $this->config->get('wechat.default.agent_id') && $this->config->get('wechat.default.corp_id');
     }
 
-    public function authorize(string $url): string
+    public function authorize(string $url, string $state): string
     {
         return sprintf(
-            'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=%s&agentid=%s&redirect_uri=%s&state=STATE',
+            'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=%s&agentid=%s&redirect_uri=%s&state=%s',
             $this->application->getAccount()->getCorpId(),
             $this->getAgentId(),
-            $url
+            $url,
+            $state
         );
     }
 

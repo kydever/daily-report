@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Constants\OAuth;
+use App\Request\AuthorizeRequest;
 use App\Service\Dao\UserDao;
 use App\Service\FeishuService;
 use App\Service\Formatter\UserFormatter;
@@ -37,12 +38,14 @@ class OauthController extends Controller
     #[Value(key: 'oauth')]
     protected int $oauth;
 
-    public function authorize()
+    public function authorize(AuthorizeRequest $request)
     {
-        $url = $this->request->input('redirect_uri');
+        $url = (string) $request->input('redirect_uri');
+        $state = (string) $request->input('state');
+
         $redirectUrl = match ($this->oauth) {
-            OAuth::FEISHU => $this->feishu->getApplication()->oauth->authorize($url),
-            OAuth::WORK_WECHAT => $this->work->authorize($url),
+            OAuth::FEISHU => $this->feishu->getApplication()->oauth->authorize($url, $state),
+            OAuth::WORK_WECHAT => $this->work->authorize($url, $state),
         };
 
         return $this->response->redirect($redirectUrl);

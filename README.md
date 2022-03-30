@@ -6,7 +6,7 @@
 
 支持 `飞书` 和 `企业微信`，可以通过修改配置 `oauth` 进行调整。
 
-http://127.0.0.1:9501/oauth/authorize?redirect_uri=http://127.0.0.1:9501/oauth/login
+http://127.0.0.1:9501/oauth/authorize?state=STATE&redirect_uri=http://127.0.0.1:9501/oauth/login
 
 ## 接口文档
 
@@ -16,9 +16,10 @@ http://127.0.0.1:9501/oauth/authorize?redirect_uri=http://127.0.0.1:9501/oauth/l
 
 - 入参
 
-| 参数         | 类型   | 备注         |
-| ------------ | ------ | ------------ |
-| redirect_uri | String | 重定向的地址 |
+| 参数           | 类型     | 备注             |
+|--------------|--------|----------------|
+| redirect_uri | String | 重定向的地址         |
+| state        | String | 自定义数据，回调时会携带回来 |
 
 ### 登录
 
