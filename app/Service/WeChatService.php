@@ -11,12 +11,13 @@ declare(strict_types=1);
  */
 namespace App\Service;
 
+use App\Constants\ErrorCode;
+use App\Exception\BusinessException;
 use EasyWeChat\Work\Application;
 use GuzzleHttp\RequestOptions;
 use Han\Utils\Service;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Di\Annotation\Inject;
-use Hyperf\Utils\Arr;
 
 class WeChatService extends Service
 {
@@ -57,32 +58,63 @@ class WeChatService extends Service
         ];
     }
 
-    public function setWorkBenchTemplate(): bool
+    public function setWorkBenchTemplate(): void
     {
-        $workBench = $this->config->get('wechat.default.work_bench');
-        $json = Arr::only($workBench, ['type', 'webview']);
         $res = $this->application->getClient()->post('/cgi-bin/agent/set_workbench_template', [
-            RequestOptions::JSON => array_merge(['agentid' => $this->getAgentId()], $json),
+            RequestOptions::JSON => [
+                'agentid' => $this->getAgentId(),
+                'type' => 'keydata',
+                'items' => [
+                    [
+                        'key' => '本日',
+                        'data' => '0',
+                    ],
+                    [
+                        'key' => '本周',
+                        'data' => '0',
+                    ],
+                    [
+                        'key' => '本月',
+                        'data' => '0',
+                    ],
+                ],
+            ],
         ])->toArray();
 
-        return $res['errcode'] === 0;
+        if ($res['errcode'] !== 0) {
+            throw new BusinessException(ErrorCode::SERVER_ERROR, $res['errmsg']);
+        }
     }
 
     public function setWorkBenchData(string $userId): bool
     {
-        $workBench = $this->config->get('wechat.default.work_bench');
-        $json = array_merge(Arr::only($workBench, ['type', 'webview']), [
-            'agentid' => $this->getAgentId(),
-            'userid' => $userId,
-        ]);
-
         $res = $this->application->getClient()->post('/cgi-bin/agent/set_workbench_data', [
-            RequestOptions::JSON => $json,
+            RequestOptions::JSON => [
+                'agentid' => $this->getAgentId(),
+                'userid' => $userId,
+                'type' => 'keydata',
+                'keydata' => [
+                    'items' => [
+                        [
+                            'key' => '本日',
+                            'data' => '0',
+                        ],
+                        [
+                            'key' => '本周',
+                            'data' => '0',
+                        ],
+                        [
+                            'key' => '本月',
+                            'data' => '0',
+                        ],
+                    ],
+                ],
+            ],
         ])->toArray();
 
-        var_dump($res);
-
-        return $res['errcode'] === 0;
+        if ($res['errcode'] !== 0) {
+            throw new BusinessException(ErrorCode::SERVER_ERROR, $res['errmsg']);
+        }
     }
 
     protected function getAgentId(): int
