@@ -16,6 +16,7 @@ use GuzzleHttp\RequestOptions;
 use Han\Utils\Service;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\Utils\Arr;
 
 class WeChatService extends Service
 {
@@ -29,8 +30,8 @@ class WeChatService extends Service
     {
         return sprintf(
             'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=%s&agentid=%s&redirect_uri=%s&state=STATE',
-            $this->config->get('wechat.default.corp_id'),
-            $this->config->get('wechat.default.agent_id'),
+            $this->application->getAccount()->getCorpId(),
+            $this->getAgentId(),
             $url
         );
     }
@@ -54,5 +55,38 @@ class WeChatService extends Service
             'email' => $res['biz_mail'],
             'avatar_url' => $res['thumb_avatar'],
         ];
+    }
+
+    public function setWorkBenchTemplate(): bool
+    {
+        $workBench = $this->config->get('wechat.default.work_bench');
+        $json = Arr::only($workBench, ['type', 'webview']);
+        $res = $this->application->getClient()->post('/cgi-bin/agent/set_workbench_template', [
+            RequestOptions::JSON => array_merge(['agentid' => $this->getAgentId()], $json),
+        ])->toArray();
+
+        return $res['errcode'] === 0;
+    }
+
+    public function setWorkBenchData(string $userId): bool
+    {
+        $workBench = $this->config->get('wechat.default.work_bench');
+        $json = array_merge(Arr::only($workBench, ['type', 'webview']), [
+            'agentid' => $this->getAgentId(),
+            'userid' => $userId,
+        ]);
+
+        $res = $this->application->getClient()->post('/cgi-bin/agent/set_workbench_data', [
+            RequestOptions::JSON => $json,
+        ])->toArray();
+
+        var_dump($res);
+
+        return $res['errcode'] === 0;
+    }
+
+    protected function getAgentId(): int
+    {
+        return $this->config->get('wechat.default.agent_id');
     }
 }

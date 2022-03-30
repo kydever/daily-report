@@ -17,5 +17,11 @@ return [
         'oauth' => [
             'redirect_url' => '',
         ],
+        'work_bench' => [
+            'type' => 'webview',
+            'webview' => [
+                'url' => env('WORK_BENCH_WEBVIEW_URL'),
+            ],
+        ],
     ],
 ];
