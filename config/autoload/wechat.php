@@ -16,9 +16,6 @@ return [
         'secret' => env('WORK_WECHAT_SECRET'),
         'token' => env('WORK_WECHAT_TOKEN'),
         'aes_key' => env('WORK_WECHAT_AES_KEY'),
-        'http' => [
-            'handler' => new Hyperf\Guzzle\CoroutineHandler(),
-        ],
         'oauth' => [
             'redirect_url' => '',
         ],
