@@ -11,7 +11,9 @@ declare(strict_types=1);
  */
 namespace App\Service\Factory;
 
+use App\Service\ReportService;
 use EasyWeChat\Work\Application;
+use EasyWeChat\Work\Message;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Psr\Container\ContainerInterface;
@@ -24,6 +26,12 @@ class WorkApplicationFactory
 
         return tap(new Application($config), static function (Application $application) {
             $application->setRequest(di()->get(RequestInterface::class));
+            $application->getServer()->with(function (Message $message, \Closure $next) {
+                if ($message->MsgType === 'text') {
+                    di()->get(ReportService::class)->handleWeChatMessage($message->FromUserName, $message->Content);
+                }
+                return $next($message);
+            });
         });
     }
 }
