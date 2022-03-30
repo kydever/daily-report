@@ -101,7 +101,9 @@ class WeChatService extends Service
             RequestOptions::JSON => [
                 'msgtype' => 'text',
                 'agentid' => $this->getAgentId(),
-                'content' => $content,
+                'text' => [
+                    'content' => $content,
+                ],
                 'touser' => $openId,
             ],
         ])->toArray();
