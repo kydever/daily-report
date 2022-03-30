@@ -102,7 +102,6 @@ class WeChatService extends Service
             ],
         ])->toArray();
 
-        var_dump($res);
         if ($res['errcode'] !== 0) {
             throw new BusinessException(ErrorCode::SERVER_ERROR, $res['errmsg']);
         }
