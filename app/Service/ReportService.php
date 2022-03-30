@@ -129,8 +129,9 @@ class ReportService extends Service
             $content = $message->Content;
 
             if ($user = di()->get(UserDao::class)->firstByOpenId($openId)) {
-                $data = explode(' ', $content);
-                if (count($data) === 5) {
+                $data = explode(PHP_EOL, $content);
+                $data = array_filter($data);
+                if (count($data) === 6 && array_shift($data) === '日报') {
                     di()->get(ReportService::class)->addItem(0, $user->id, ...$data);
                 }
             }
