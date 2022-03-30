@@ -47,7 +47,7 @@ class UserAuth
         $this->userId = $user->id;
         $this->token = md5($user->id . uniqid());
 
-        di()->get(Redis::class)->set($this->getInnerToken($this->token), ['user_id' => $user->id], 86400);
+        di()->get(Redis::class)->set($this->getInnerToken($this->token), serialize(['user_id' => $user->id]), 86400);
 
         return $this;
     }
