@@ -35,7 +35,7 @@ class WorkApplicationFactory
                         di()->get(ReportService::class)->handleWeChatMessage($message->FromUserName, $message->Content);
                         break;
                     case 'event':
-                        di()->get(ReportService::class)->handleWeChatEvent($message->FromUserName, $message->Event);
+                        di()->get(ReportService::class)->handleWeChatEvent($message->FromUserName, $message->EventKey);
                         break;
                 }
                 return $next($message);
