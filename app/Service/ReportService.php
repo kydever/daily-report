@@ -132,7 +132,7 @@ class ReportService extends Service
 
         if ($content === '我的日报') {
             if ($model = di()->get(ReportDao::class)->firstByUserId($user->id)) {
-                $items = di()->get(ReportItemDao::class)->findTodayByUserId($model->id);
+                $items = di()->get(ReportItemDao::class)->findByReportId($model->id);
                 di()->get(WeChatService::class)->sendCard($user->open_id, $items);
             }
             return;
