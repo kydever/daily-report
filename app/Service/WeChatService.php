@@ -43,15 +43,11 @@ class WeChatService extends Service
         );
     }
 
-    public function getUserInfo(string $code): array
+    public function getUserInfoByOpenId(string $openId): array
     {
-        $user = $this->application->getOAuth()->userFromCode($code);
-
-        $userId = $user->getId();
-
         $res = $this->application->getClient()->get('/cgi-bin/user/get', [
             RequestOptions::QUERY => [
-                'userid' => $userId,
+                'userid' => $openId,
             ],
         ])->toArray();
 
@@ -62,6 +58,13 @@ class WeChatService extends Service
             'email' => $res['biz_mail'],
             'avatar_url' => $res['thumb_avatar'],
         ];
+    }
+
+    public function getUserInfo(string $code): array
+    {
+        $user = $this->application->getOAuth()->userFromCode($code);
+
+        return $this->getUserInfoByOpenId($user->getId());
     }
 
     public function setWorkBenchTemplate(): void

@@ -14,6 +14,7 @@ namespace App\Controller;
 use App\Service\ReportService;
 use Closure;
 use EasyWeChat\Work\Application;
+use EasyWeChat\Work\Message;
 use Hyperf\Di\Annotation\Inject;
 
 class WeChatController extends Controller
@@ -34,9 +35,10 @@ class WeChatController extends Controller
     public function serve()
     {
         $server = $this->application->getServer();
-        $server->with(function ($message, Closure $next) {
-            $this->report->handleWeChatMessage($message);
-
+        $server->with(function (Message $message, Closure $next) {
+            if ($message->MsgType === 'text') {
+                $this->report->handleWeChatMessage($message->FromUserName, $message->Content);
+            }
             return $next($message);
         });
         return (string) $server->serve()->getBody();

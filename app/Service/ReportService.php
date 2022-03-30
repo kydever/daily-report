@@ -20,7 +20,6 @@ use App\Service\Dao\ReportItemDao;
 use App\Service\Dao\UserDao;
 use App\Service\Formatter\ReportFormatter;
 use Carbon\Carbon;
-use EasyWeChat\Work\Message;
 use Han\Utils\Service;
 use Hyperf\AsyncQueue\Annotation\AsyncQueueMessage;
 use Hyperf\Di\Annotation\Inject;
@@ -122,19 +121,19 @@ class ReportService extends Service
         ];
     }
 
-    public function handleWeChatMessage(Message $message): void
+    #[AsyncQueueMessage]
+    public function handleWeChatMessage(string $openId, string $content): void
     {
-        if ($message->MsgType === 'text') {
-            $openId = $message->FromUserName;
-            $content = $message->Content;
+        $user = di()->get(UserDao::class)->firstByOpenId($openId);
+        if (empty($user)) {
+            $result = di()->get(WeChatService::class)->getUserInfoByOpenId($openId);
+            $user = di()->get(UserDao::class)->firstOrCreate($result);
+        }
 
-            if ($user = di()->get(UserDao::class)->firstByOpenId($openId)) {
-                $data = explode(PHP_EOL, $content);
-                $data = array_filter($data);
-                if (count($data) === 6 && array_shift($data) === '日报') {
-                    di()->get(ReportService::class)->addItem(0, $user->id, ...$data);
-                }
-            }
+        $data = explode(PHP_EOL, $content);
+        $data = array_filter($data);
+        if (count($data) === 6 && array_shift($data) === '日报') {
+            di()->get(ReportService::class)->addItem(0, $user->id, ...$data);
         }
     }
 }
