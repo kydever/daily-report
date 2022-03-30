@@ -19,10 +19,20 @@ class WeChatController extends Controller
     #[Inject]
     protected Application $application;
 
-    public function serve()
+    public function checkServe()
     {
         $server = $this->application->getServer();
 
+        return (string) $server->serve()->getBody();
+    }
+
+    public function serve()
+    {
+        $server = $this->application->getServer();
+        $server->with(function ($message, \Closure $next) {
+            var_dump($message);
+            return $next($message);
+        });
         return (string) $server->serve()->getBody();
     }
 }
