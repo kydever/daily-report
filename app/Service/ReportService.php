@@ -162,7 +162,7 @@ class ReportService extends Service
                 return;
             }
 
-            $work->handle($content)->next()->afterHandle();
+            $work->handle($content)->next()->save()->afterHandle();
 
             return;
         }
