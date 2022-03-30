@@ -91,7 +91,7 @@ class WeChatService extends Service
         }
     }
 
-    public function setWorkBenchData(string $userId, int $todayCount, int $weekCount, int $monthCount): bool
+    public function setWorkBenchData(string $userId, int $todayCount, int $weekCount, int $monthCount)
     {
         $res = $this->application->getClient()->post('/cgi-bin/agent/set_workbench_data', [
             RequestOptions::JSON => [
