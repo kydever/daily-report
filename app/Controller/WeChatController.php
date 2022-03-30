@@ -11,6 +11,8 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
+use App\Service\ReportService;
+use Closure;
 use EasyWeChat\Work\Application;
 use Hyperf\Di\Annotation\Inject;
 
@@ -18,6 +20,9 @@ class WeChatController extends Controller
 {
     #[Inject]
     protected Application $application;
+
+    #[Inject]
+    protected ReportService $report;
 
     public function checkServe()
     {
@@ -29,8 +34,9 @@ class WeChatController extends Controller
     public function serve()
     {
         $server = $this->application->getServer();
-        $server->with(function ($message, \Closure $next) {
-            var_dump($message);
+        $server->with(function ($message, Closure $next) {
+            $this->report->handleWeChatMessage($message);
+
             return $next($message);
         });
         return (string) $server->serve()->getBody();

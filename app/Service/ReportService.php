@@ -20,6 +20,7 @@ use App\Service\Dao\ReportItemDao;
 use App\Service\Dao\UserDao;
 use App\Service\Formatter\ReportFormatter;
 use Carbon\Carbon;
+use EasyWeChat\Work\Message;
 use Han\Utils\Service;
 use Hyperf\AsyncQueue\Annotation\AsyncQueueMessage;
 use Hyperf\Di\Annotation\Inject;
@@ -119,5 +120,20 @@ class ReportService extends Service
             $this->item->countByUserId($userId, $week->toDateTimeString()),
             $this->item->countByUserId($userId, $month->toDateTimeString()),
         ];
+    }
+
+    public function handleWeChatMessage(Message $message): void
+    {
+        if ($message->MsgType === 'text') {
+            $openId = $message->FromUserName;
+            $content = $message->Content;
+
+            if ($user = di()->get(UserDao::class)->firstByOpenId($openId)) {
+                $data = explode(' ', $content);
+                if (count($data) === 5) {
+                    di()->get(ReportService::class)->addItem(0, $user->id, ...$data);
+                }
+            }
+        }
     }
 }
