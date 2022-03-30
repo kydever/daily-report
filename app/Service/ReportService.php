@@ -66,7 +66,7 @@ class ReportService extends Service
         return $model->delete();
     }
 
-    public function addItem(int $id, int $userId, string $project, string $module, string $summary, string $beginTime, string $endTime): ReportItem
+    public function addItem(int $id, int $userId, string $project, string $module, string $summary, string|Carbon $beginTime, string|Carbon $endTime): ReportItem
     {
         $report = $this->dao->firstOrCreate($userId);
         if ($id === 0) {
@@ -137,6 +137,13 @@ class ReportService extends Service
                 di()->get(WeChatService::class)->sendCard($user->open_id, $items);
             }
         }
+
+        if ($event === Event::BEGIN_TODAY_WORK) {
+            WorkToday::load($user)
+                ->begin()
+                ->save()
+                ->afterHandle();
+        }
     }
 
     #[AsyncQueueMessage]
@@ -146,6 +153,18 @@ class ReportService extends Service
         if (empty($user)) {
             $result = di()->get(WeChatService::class)->getUserInfoByOpenId($openId);
             $user = di()->get(UserDao::class)->firstOrCreate($result);
+        }
+
+        $work = WorkToday::load($user);
+        if ($work->isStart()) {
+            if ($content === '退出') {
+                $work->quit()->save()->afterHandle();
+                return;
+            }
+
+            $work->handle($content)->next()->afterHandle();
+
+            return;
         }
 
         if ($content === '我的日报') {

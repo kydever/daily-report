@@ -91,6 +91,11 @@ class WeChatService extends Service
                                 'name' => '我的日报',
                                 'key' => Event::SHOW_TODAY_REPORT,
                             ],
+                            [
+                                'type' => 'click',
+                                'name' => '开始工作',
+                                'key' => Event::BEGIN_TODAY_WORK,
+                            ],
                         ],
                     ],
                 ],
