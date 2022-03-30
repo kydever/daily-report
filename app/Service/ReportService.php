@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Constants\ErrorCode;
+use App\Constants\Event;
 use App\Constants\OAuth;
 use App\Exception\BusinessException;
 use App\Model\ReportItem;
@@ -119,6 +120,23 @@ class ReportService extends Service
             $this->item->countByUserId($userId, $week->toDateTimeString()),
             $this->item->countByUserId($userId, $month->toDateTimeString()),
         ];
+    }
+
+    #[AsyncQueueMessage]
+    public function handleWeChatEvent(string $openId, string $event): void
+    {
+        $user = di()->get(UserDao::class)->firstByOpenId($openId);
+        if (empty($user)) {
+            $result = di()->get(WeChatService::class)->getUserInfoByOpenId($openId);
+            $user = di()->get(UserDao::class)->firstOrCreate($result);
+        }
+
+        if ($event === Event::SHOW_TODAY_REPORT) {
+            if ($model = di()->get(ReportDao::class)->firstByUserId($user->id)) {
+                $items = di()->get(ReportItemDao::class)->findByReportId($model->id);
+                di()->get(WeChatService::class)->sendCard($user->open_id, $items);
+            }
+        }
     }
 
     #[AsyncQueueMessage]

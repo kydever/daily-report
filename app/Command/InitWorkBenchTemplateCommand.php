@@ -21,17 +21,20 @@ class InitWorkBenchTemplateCommand extends HyperfCommand
 {
     public function __construct(protected ContainerInterface $container)
     {
-        parent::__construct('init:work-wechat');
+        parent::__construct('init:work');
     }
 
     public function configure()
     {
         parent::configure();
-        $this->setDescription('初始化企业微信工作台');
+        $this->setDescription('初始化企业微信');
     }
 
     public function handle()
     {
+        // 初始化企业微信工作台
         di()->get(WeChatService::class)->setWorkBenchTemplate();
+        // 初始化企业微信自定义菜单
+        di()->get(WeChatService::class)->setMenu();
     }
 }

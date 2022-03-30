@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Constants\ErrorCode;
+use App\Constants\Event;
 use App\Exception\BusinessException;
 use App\Model\ReportItem;
 use EasyWeChat\Work\Application;
@@ -67,6 +68,39 @@ class WeChatService extends Service
         $user = $this->application->getOAuth()->userFromCode($code);
 
         return $this->getUserInfoByOpenId($user->getId());
+    }
+
+    public function setMenu(): void
+    {
+        $res = $this->application->getClient()->post('/cgi-bin/menu/create', [
+            RequestOptions::QUERY => [
+                'agentid' => $this->getAgentId(),
+            ],
+            RequestOptions::JSON => [
+                'button' => [
+                    [
+                        'type' => 'view',
+                        'name' => '日报系统',
+                        'url' => $this->config->get('frontend.base_uri'),
+                    ],
+                    [
+                        'name' => '快捷入口',
+                        'sub_button' => [
+                            [
+                                'type' => 'click',
+                                'name' => '我的日报',
+                                'key' => Event::SHOW_TODAY_REPORT,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ])->toArray();
+
+        var_dump($res);
+        if ($res['errcode'] !== 0) {
+            throw new BusinessException(ErrorCode::SERVER_ERROR, $res['errmsg']);
+        }
     }
 
     public function setWorkBenchTemplate(): void

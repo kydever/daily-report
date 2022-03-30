@@ -15,7 +15,9 @@ use App\Service\ReportService;
 use EasyWeChat\Work\Application;
 use EasyWeChat\Work\Message;
 use Hyperf\Contract\ConfigInterface;
+use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\HttpServer\Contract\RequestInterface;
+use Hyperf\Utils\Codec\Json;
 use Psr\Container\ContainerInterface;
 
 class WorkApplicationFactory
@@ -27,8 +29,14 @@ class WorkApplicationFactory
         return tap(new Application($config), static function (Application $application) {
             $application->setRequest(di()->get(RequestInterface::class));
             $application->getServer()->with(function (Message $message, \Closure $next) {
-                if ($message->MsgType === 'text') {
-                    di()->get(ReportService::class)->handleWeChatMessage($message->FromUserName, $message->Content);
+                di()->get(StdoutLoggerInterface::class)->info(Json::encode($message->toArray()));
+                switch ($message->MsgType) {
+                    case 'text':
+                        di()->get(ReportService::class)->handleWeChatMessage($message->FromUserName, $message->Content);
+                        break;
+                    case 'event':
+                        di()->get(ReportService::class)->handleWeChatEvent($message->FromUserName, $message->Event);
+                        break;
                 }
                 return $next($message);
             });
