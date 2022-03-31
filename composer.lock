@@ -6532,16 +6532,16 @@
         },
         {
             "name": "w7corp/easywechat",
-            "version": "6.2.4",
+            "version": "6.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/w7corp/easywechat.git",
-                "reference": "af79efad421421623430fa6671efca88c3194cb9"
+                "reference": "65362312ad94e2338cc700d253b357056b8a24ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/w7corp/easywechat/zipball/af79efad421421623430fa6671efca88c3194cb9",
-                "reference": "af79efad421421623430fa6671efca88c3194cb9",
+                "url": "https://api.github.com/repos/w7corp/easywechat/zipball/65362312ad94e2338cc700d253b357056b8a24ef",
+                "reference": "65362312ad94e2338cc700d253b357056b8a24ef",
                 "shasum": ""
             },
             "require": {
@@ -6619,7 +6619,7 @@
             ],
             "support": {
                 "issues": "https://github.com/w7corp/easywechat/issues",
-                "source": "https://github.com/w7corp/easywechat/tree/6.2.4"
+                "source": "https://github.com/w7corp/easywechat/tree/6.3.1"
             },
             "funding": [
                 {
@@ -6627,7 +6627,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-03-25T06:35:58+00:00"
+            "time": "2022-03-31T03:01:23+00:00"
         }
     ],
     "packages-dev": [
@@ -7659,16 +7659,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.5.2",
+            "version": "1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "f32e95f571c9587b4e14be05253ae56fedd00b2c"
+                "reference": "39953ac1452a8843702ee41a35b4861d3e8207a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f32e95f571c9587b4e14be05253ae56fedd00b2c",
-                "reference": "f32e95f571c9587b4e14be05253ae56fedd00b2c",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/39953ac1452a8843702ee41a35b4861d3e8207a7",
+                "reference": "39953ac1452a8843702ee41a35b4861d3e8207a7",
                 "shasum": ""
             },
             "require": {
@@ -7694,7 +7694,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.5.2"
+                "source": "https://github.com/phpstan/phpstan/tree/1.5.3"
             },
             "funding": [
                 {
@@ -7714,7 +7714,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-29T07:34:36+00:00"
+            "time": "2022-03-30T21:55:08+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -9774,5 +9774,5 @@
         "ext-swoole": ">=4.5"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
