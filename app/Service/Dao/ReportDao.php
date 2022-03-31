@@ -11,12 +11,25 @@ declare(strict_types=1);
  */
 namespace App\Service\Dao;
 
+use App\Constants\ErrorCode;
+use App\Exception\BusinessException;
 use App\Model\Report;
 use Carbon\Carbon;
 use Han\Utils\Service;
 
 class ReportDao extends Service
 {
+    public function first(int $id, bool $throw = false)
+    {
+        $model = Report::findFromCache($id);
+
+        if (empty($model) && $throw) {
+            throw new BusinessException(ErrorCode::REPORT_NOT_EXIST);
+        }
+
+        return $model;
+    }
+
     public function find(int $userId, int $offset = 0, int $limit = 5)
     {
         $query = Report::query()
