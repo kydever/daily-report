@@ -34,11 +34,4 @@ class ReportItemDao extends Service
         $model->report_id = $reportId;
         return $model;
     }
-
-    public function getByReportId(int $reportId)
-    {
-        return ReportItem::query()
-            ->where('report_id', $reportId)
-            ->get();
-    }
 }
