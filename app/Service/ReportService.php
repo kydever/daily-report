@@ -20,7 +20,6 @@ use App\Service\Dao\ReportDao;
 use App\Service\Dao\ReportItemDao;
 use App\Service\Dao\UserDao;
 use App\Service\Formatter\ReportFormatter;
-use App\Service\Formatter\ReportItemFormatter;
 use Carbon\Carbon;
 use Han\Utils\Service;
 use Hyperf\AsyncQueue\Annotation\AsyncQueueMessage;
