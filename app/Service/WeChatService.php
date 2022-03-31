@@ -142,10 +142,10 @@ class WeChatService extends Service
         }
     }
 
-    public function uploadMedia(string $path): string
+    public function uploadMedia(string $path, ?string $name = null): string
     {
         $options = Form::create([
-            'media' => File::fromPath($path),
+            'media' => File::fromPath($path, $name),
         ])->toArray();
 
         $res = $this->application->getClient()->post('/cgi-bin/media/upload', array_merge([

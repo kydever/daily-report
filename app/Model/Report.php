@@ -19,6 +19,7 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Hyperf\Database\Model\Collection|ReportItem[] $items
+ * @property User $user
  */
 class Report extends Model
 {
@@ -40,5 +41,10 @@ class Report extends Model
     public function items()
     {
         return $this->hasMany(ReportItem::class, 'report_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }
