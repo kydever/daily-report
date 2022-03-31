@@ -191,4 +191,15 @@ class ReportService extends Service
             }
         }
     }
+
+    public function generateToken(int $reportId): string
+    {
+        return md5(uniqid() . $reportId);
+        // TODO: redis->set($token, $reportId);
+    }
+
+    public function items(int $reportId)
+    {
+        return $this->item->findByReportId($reportId);
+    }
 }
