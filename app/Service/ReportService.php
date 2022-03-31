@@ -15,6 +15,7 @@ use App\Constants\ErrorCode;
 use App\Constants\Event;
 use App\Constants\OAuth;
 use App\Exception\BusinessException;
+use App\Model\Report;
 use App\Model\ReportItem;
 use App\Service\Dao\ReportDao;
 use App\Service\Dao\ReportItemDao;
@@ -146,9 +147,16 @@ class ReportService extends Service
                     ->afterHandle();
                 break;
             case Event::SHOW_ALL_TODAY_REPORT:
-                // TODO: 生成我的日报Excel
-                // TODO: 上传临时素材
-                // TODO: 发送给用户
+                $report = $this->dao->firstByUserId($user->id);
+                // 生成我的日报 CSV
+                $file = $this->exportCSVToFile($report);
+                // 上传临时素材
+                $mediaId = di()->get(WeChatService::class)->uploadMedia(
+                    $file,
+                    sprintf('%s - %s 日报', $user->name, $report->dt)
+                );
+                // 发送给用户
+                di()->get(WeChatService::class)->sendMedia($user->open_id, $mediaId);
                 break;
         }
     }
@@ -221,20 +229,15 @@ class ReportService extends Service
         return $this->formatter->base($model);
     }
 
-    public function exportItem(int $reportId): string
+    public function exportCSVToFile(Report $report): string
     {
-        $models = $this->item->findByReportId($reportId);
-        $fileName = BASE_PATH . '/runtime/' . $reportId . '_' . time() . '.csv';
-        if (file_exists($fileName)) {
-            unlink($fileName);
-        }
-        $stream = fopen($fileName, 'w+');
-        fputcsv($stream, ['id', '项目', '模块', '工作详情', '进度', '时间']);
+        $fileName = BASE_PATH . '/runtime/' . $report->id . '_' . uniqid() . '.csv';
 
-        /** @var ReportItem $v */
-        foreach ($models as $v) {
+        $stream = fopen($fileName, 'w+');
+        fputcsv($stream, ['项目', '模块', '工作详情', '进度', '时间']);
+
+        foreach ($report->items as $v) {
             $data = [
-                'id' => $v->id,
                 'project' => $v->project,
                 'module' => $v->module,
                 'summary' => $v->summary,
