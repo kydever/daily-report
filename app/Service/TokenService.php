@@ -18,7 +18,7 @@ class TokenService extends Service
     public function generate(string $data): string
     {
         $token = password_hash($data, PASSWORD_DEFAULT, PASSWORD_BCRYPT);
-        if ( ! $token ) {
+        if (! $token) {
             $this->generate($data);
         }
 

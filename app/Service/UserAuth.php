@@ -71,10 +71,10 @@ class UserAuth
 
     public function getUser(): ?User
     {
-        if ( $this->userId == 0 ) {
+        if ($this->userId == 0) {
             return null;
         }
-        if ( $this->user ) {
+        if ($this->user) {
             return $this->user;
         }
 

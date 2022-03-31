@@ -95,8 +95,6 @@ class ReportService extends Service
     public function items(string $token)
     {
         $reportId = di()->get(RedisDriver::class)->get($token);
-        $items = $this->item->getByReportId($reportId);
-
-        return $items;
+        return $this->item->getByReportId($reportId);
     }
 }
