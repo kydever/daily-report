@@ -220,4 +220,31 @@ class ReportService extends Service
 
         return $this->formatter->base($model);
     }
+
+    public function exportItem(int $reportId): string
+    {
+        $models = $this->item->findByReportId($reportId);
+        $fileName = BASE_PATH . '/runtime/' . $reportId . '_' . time() . '.csv';
+        if (file_exists($fileName)) {
+            unlink($fileName);
+        }
+        $stream = fopen($fileName, 'w+');
+        fputcsv($stream, ['id', '项目', '模块', '工作详情', '进度', '时间']);
+
+        /** @var ReportItem $v */
+        foreach ($models as $v) {
+            $data = [
+                'id' => $v->id,
+                'project' => $v->project,
+                'module' => $v->module,
+                'summary' => $v->summary,
+                'schedule' => ReportItem::SCHEDULE_DEFAULT,
+                'date' => $v->begin_time . ' - ' . $v->end_time,
+            ];
+            fputcsv($stream, $data);
+        }
+        fclose($stream);
+
+        return $fileName;
+    }
 }
