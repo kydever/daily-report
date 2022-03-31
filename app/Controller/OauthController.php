@@ -15,8 +15,10 @@ use App\Constants\OAuth;
 use App\Service\Dao\UserDao;
 use App\Service\FeishuService;
 use App\Service\Formatter\UserFormatter;
+use App\Service\TokenService;
 use App\Service\UserAuth;
 use App\Service\WeChatService;
+use Hyperf\Cache\Driver\RedisDriver;
 use Hyperf\Config\Annotation\Value;
 use Hyperf\Di\Annotation\Inject;
 
@@ -65,5 +67,12 @@ class OauthController extends Controller
             'token' => $token,
             'user' => $this->formatter->base($user),
         ]);
+    }
+
+    public function generateToken()
+    {
+        $user = UserAuth::instance()->build()->getUser();
+        $token = di()->get(TokenService::class)->generate($user->email);
+        di()->get(RedisDriver::class)->set($token, $user->id);
     }
 }

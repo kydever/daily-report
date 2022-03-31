@@ -53,4 +53,9 @@ class ReportController extends Controller
 
         return $this->response->success($result);
     }
+
+    public function item()
+    {
+        // TODO: 取出所有 items，应该新建一个 ReportItemService 和 ReportItemDao
+    }
 }

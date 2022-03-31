@@ -15,6 +15,7 @@ use App\Constants\Environment;
 use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use App\Model\User;
+use App\Service\Dao\UserDao;
 use Hyperf\Redis\Redis;
 use Hyperf\Utils\Traits\StaticInstance;
 
@@ -29,6 +30,8 @@ class UserAuth
     protected int $userId = 0;
 
     protected string $token = '';
+
+    protected ?User $user = null;
 
     public function reload(string $token): static
     {
@@ -64,6 +67,18 @@ class UserAuth
     public function getUserId(): int
     {
         return $this->userId;
+    }
+
+    public function getUser(): ?User
+    {
+        if ( $this->userId == 0 ) {
+            return null;
+        }
+        if ( $this->user ) {
+            return $this->user;
+        }
+
+        return $this->user = di()->get(UserDao::class)->first($this->userId, true);
     }
 
     public function setUserId(int $userId): void
