@@ -131,18 +131,24 @@ class ReportService extends Service
             $user = di()->get(UserDao::class)->firstOrCreate($result);
         }
 
-        if ($event === Event::SHOW_TODAY_REPORT) {
-            if ($model = di()->get(ReportDao::class)->firstByUserId($user->id)) {
-                $items = di()->get(ReportItemDao::class)->findByReportId($model->id);
-                di()->get(WeChatService::class)->sendCard($user->open_id, $items);
-            }
-        }
-
-        if ($event === Event::BEGIN_TODAY_WORK) {
-            WorkToday::load($user)
-                ->begin()
-                ->save()
-                ->afterHandle();
+        switch ($event) {
+            case Event::SHOW_TODAY_REPORT:
+                if ($model = di()->get(ReportDao::class)->firstByUserId($user->id)) {
+                    $items = di()->get(ReportItemDao::class)->findByReportId($model->id);
+                    di()->get(WeChatService::class)->sendCard($user->open_id, $items);
+                }
+                break;
+            case Event::BEGIN_TODAY_WORK:
+                WorkToday::load($user)
+                    ->begin()
+                    ->save()
+                    ->afterHandle();
+                break;
+            case Event::SHOW_ALL_TODAY_REPORT:
+                // TODO: 生成我的日报Excel
+                // TODO: 上传临时素材
+                // TODO: 发送给用户
+                break;
         }
     }
 
