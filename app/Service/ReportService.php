@@ -153,7 +153,7 @@ class ReportService extends Service
                 // 上传临时素材
                 $mediaId = di()->get(WeChatService::class)->uploadMedia(
                     $file,
-                    sprintf('%s - %s 日报', $user->name, $report->dt)
+                    sprintf('%s - %s 日报.csv', $user->name, $report->dt)
                 );
                 // 发送给用户
                 di()->get(WeChatService::class)->sendMedia($user->open_id, $mediaId);
