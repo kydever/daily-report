@@ -92,3 +92,23 @@ http://127.0.0.1:9501/oauth/authorize?state=STATE&redirect_uri=http://127.0.0.1:
 | 参数     | 类型    | 备注     |
 |--------| ------- |--------|
 | id | Integer | 日报条目ID |
+
+## 使用 Token 获取日报条目
+
+> GET /report/{token}/item
+
+- 出参
+
+| 参数 | 类型      | 备注   |
+| --- |---------|------|
+| id | Integer |      |
+| user_id | Integer | 用户ID |
+| report_id | Integer | 报告ID |
+| project | String  | 项目 |
+| module | String | 模块 |
+| summary | String | 工作详情 |
+| begin_time | String | 工作开始时间 |
+| end_time | String | 工作结束时间 |
+| used_time | Integer | 耗时 |
+| extra | Array | 耗时 |
+

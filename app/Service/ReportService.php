@@ -20,6 +20,7 @@ use App\Service\Dao\ReportDao;
 use App\Service\Dao\ReportItemDao;
 use App\Service\Dao\UserDao;
 use App\Service\Formatter\ReportFormatter;
+use App\Service\Formatter\ReportItemFormatter;
 use Carbon\Carbon;
 use Han\Utils\Service;
 use Hyperf\AsyncQueue\Annotation\AsyncQueueMessage;
@@ -200,6 +201,7 @@ class ReportService extends Service
 
     public function items(int $reportId)
     {
-        return $this->item->findByReportId($reportId);
+        $models = $this->item->findByReportId($reportId);
+        return di()->get(ReportItemFormatter::class)->formatList($models);
     }
 }
