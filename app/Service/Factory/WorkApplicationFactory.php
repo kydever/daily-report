@@ -32,10 +32,14 @@ class WorkApplicationFactory
                 di()->get(StdoutLoggerInterface::class)->info(Json::encode($message->toArray()));
                 switch ($message->MsgType) {
                     case 'text':
-                        di()->get(ReportService::class)->handleWeChatMessage($message->FromUserName, $message->Content);
+                        if ($content = $message->Content) {
+                            di()->get(ReportService::class)->handleWeChatMessage($message->FromUserName, $content);
+                        }
                         break;
                     case 'event':
-                        di()->get(ReportService::class)->handleWeChatEvent($message->FromUserName, $message->EventKey);
+                        if ($key = $message->EventKey) {
+                            di()->get(ReportService::class)->handleWeChatEvent($message->FromUserName, $key);
+                        }
                         break;
                 }
                 return $next($message);
