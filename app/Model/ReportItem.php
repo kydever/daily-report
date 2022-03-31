@@ -30,6 +30,8 @@ use Hyperf\Database\Model\Events\Saved;
  */
 class ReportItem extends Model
 {
+    public const SCHEDULE_DEFAULT = '100%';
+
     /**
      * The table associated with the model.
      */
