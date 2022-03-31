@@ -141,8 +141,14 @@ class WeChatService extends Service
     public function sendCard(string $openId, Collection $items): void
     {
         $list = [];
+        $count = $items->count();
+        $items = $items->sortByDesc('id');
+        $limit = 6;
         foreach ($items as $item) {
             $list[] = ['keyname' => $item->project, 'value' => $item->summary];
+            if (count($list) >= $limit) {
+                break;
+            }
         }
         $res = $this->application->getClient()->post('/cgi-bin/message/send', [
             RequestOptions::JSON => [
@@ -161,7 +167,7 @@ class WeChatService extends Service
                     ],
                     'emphasis_content' => [
                         'desc' => '今日完成任务',
-                        'title' => $items->count(),
+                        'title' => $count,
                     ],
                     'sub_title_text' => '以下是已完成的任务列表',
                     'horizontal_content_list' => $list,
