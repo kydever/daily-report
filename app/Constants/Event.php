@@ -16,4 +16,6 @@ class Event
     public const SHOW_TODAY_REPORT = 'SHOW_TODAY_REPORT';
 
     public const BEGIN_TODAY_WORK = 'BEGIN_TODAY_WORK';
+
+    public const SHOW_ALL_TODAY_REPORT = 'SHOW_ALL_TODAY_REPORT';
 }

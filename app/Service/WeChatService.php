@@ -15,6 +15,8 @@ use App\Constants\ErrorCode;
 use App\Constants\Event;
 use App\Exception\BusinessException;
 use App\Model\ReportItem;
+use EasyWeChat\Kernel\Form\File;
+use EasyWeChat\Kernel\Form\Form;
 use EasyWeChat\Work\Application;
 use GuzzleHttp\RequestOptions;
 use Han\Utils\Service;
@@ -88,13 +90,18 @@ class WeChatService extends Service
                         'sub_button' => [
                             [
                                 'type' => 'click',
-                                'name' => '我的日报',
+                                'name' => '开始工作',
+                                'key' => Event::BEGIN_TODAY_WORK,
+                            ],
+                            [
+                                'type' => 'click',
+                                'name' => '日报小节',
                                 'key' => Event::SHOW_TODAY_REPORT,
                             ],
                             [
                                 'type' => 'click',
-                                'name' => '开始工作',
-                                'key' => Event::BEGIN_TODAY_WORK,
+                                'name' => '日报详情',
+                                'key' => Event::SHOW_ALL_TODAY_REPORT,
                             ],
                         ],
                     ],
@@ -133,6 +140,25 @@ class WeChatService extends Service
         if ($res['errcode'] !== 0) {
             throw new BusinessException(ErrorCode::SERVER_ERROR, $res['errmsg']);
         }
+    }
+
+    public function uploadMedia(string $path): string
+    {
+        $options = Form::create([
+            'media' => File::fromPath($path),
+        ])->toArray();
+
+        $res = $this->application->getClient()->post('/cgi-bin/media/upload', array_merge([
+            RequestOptions::QUERY => [
+                'type' => 'file',
+            ],
+        ], $options))->toArray();
+
+        if ($res['errcode'] !== 0) {
+            throw new BusinessException(ErrorCode::SERVER_ERROR, $res['errmsg']);
+        }
+
+        return $res['media_id'];
     }
 
     /**
@@ -193,6 +219,24 @@ class WeChatService extends Service
                 'agentid' => $this->getAgentId(),
                 'text' => [
                     'content' => $content,
+                ],
+                'touser' => $openId,
+            ],
+        ])->toArray();
+
+        if ($res['errcode'] !== 0) {
+            throw new BusinessException(ErrorCode::SERVER_ERROR, $res['errmsg']);
+        }
+    }
+
+    public function sendMedia(string $openId, string $mediaId): void
+    {
+        $res = $this->application->getClient()->post('/cgi-bin/message/send', [
+            RequestOptions::JSON => [
+                'msgtype' => 'file',
+                'agentid' => $this->getAgentId(),
+                'file' => [
+                    'media_id' => $mediaId,
                 ],
                 'touser' => $openId,
             ],

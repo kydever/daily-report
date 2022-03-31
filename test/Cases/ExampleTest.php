@@ -11,6 +11,8 @@ declare(strict_types=1);
  */
 namespace HyperfTest\Cases;
 
+use EasyWeChat\Kernel\Form\File;
+use EasyWeChat\Kernel\Form\Form;
 use HyperfTest\HttpTestCase;
 
 /**
@@ -22,5 +24,14 @@ class ExampleTest extends HttpTestCase
     public function testExample()
     {
         $this->assertTrue(true);
+    }
+
+    public function testForm()
+    {
+        $options = Form::create([
+            'media' => File::fromPath(BASE_PATH . '/.gitignore'),
+        ])->toArray();
+
+        $this->assertIsArray($options);
     }
 }
