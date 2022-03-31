@@ -18,7 +18,6 @@ use App\Service\Dao\ReportDao;
 use App\Service\Dao\ReportItemDao;
 use App\Service\Formatter\ReportFormatter;
 use Han\Utils\Service;
-use Hyperf\Cache\Driver\RedisDriver;
 use Hyperf\Di\Annotation\Inject;
 use function Han\Utils\date_load;
 
