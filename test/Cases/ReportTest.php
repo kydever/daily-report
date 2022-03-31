@@ -53,8 +53,8 @@ class ReportTest extends HttpTestCase
 
     public function testItems()
     {
-        $res = $this->get('report/22f15490bbc0c8278af08c9662b8d495/item');
+        $res = $this->get('report/22f15490bbc0c8278af08c9662b8d495/items');
         $this->assertNotEmpty($res);
-        $this->assertSame(0, $res['code']);
+        $this->assertSame(1202, $res['code']);
     }
 }
