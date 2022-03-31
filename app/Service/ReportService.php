@@ -27,6 +27,7 @@ use Hyperf\AsyncQueue\Annotation\AsyncQueueMessage;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Redis\Redis;
 use function Han\Utils\date_load;
+use Vtiful\Kernel\Excel;
 
 class ReportService extends Service
 {
@@ -153,7 +154,7 @@ class ReportService extends Service
                 // 上传临时素材
                 $mediaId = di()->get(WeChatService::class)->uploadMedia(
                     $file,
-                    sprintf('%s - %s 日报.csv', $user->name, $report->dt)
+                    sprintf('%s - %s 日报.xlsx', $user->name, $report->dt)
                 );
                 // 发送给用户
                 di()->get(WeChatService::class)->sendMedia($user->open_id, $mediaId);
@@ -231,22 +232,29 @@ class ReportService extends Service
 
     public function exportCSVToFile(Report $report): string
     {
-        $fileName = BASE_PATH . '/runtime/' . $report->id . '_' . uniqid() . '.csv';
+        $fileName = BASE_PATH . '/runtime/' . $report->id . '_' . uniqid() . '.xlsx';
 
-        $stream = fopen($fileName, 'w+');
-        fputcsv($stream, ['项目', '模块', '工作详情', '进度', '时间']);
-
+        $data = [];
         foreach ($report->items as $v) {
-            $data = [
+            $data[] = [
                 'project' => $v->project,
                 'module' => $v->module,
                 'summary' => $v->summary,
                 'schedule' => ReportItem::SCHEDULE_DEFAULT,
                 'date' => $v->begin_time . ' - ' . $v->end_time,
             ];
-            fputcsv($stream, $data);
         }
-        fclose($stream);
+
+        $config = [
+            'path' => BASE_PATH . '/runtime/', // xlsx文件保存路径
+        ];
+        $excel = new Excel($config);
+
+        // fileName 会自动创建一个工作表，你可以自定义该工作表名称，工作表名称为可选参数
+        $filePath = $excel->fileName($report->id . '_' . uniqid() . '.xlsx', 'sheet1')
+            ->header(['项目', '模块', '工作详情', '进度', '时间'])
+            ->data($data)
+            ->output();
 
         return $fileName;
     }
