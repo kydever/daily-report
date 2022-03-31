@@ -25,6 +25,7 @@ use Carbon\Carbon;
 use Han\Utils\Service;
 use Hyperf\AsyncQueue\Annotation\AsyncQueueMessage;
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\Redis\Redis;
 use function Han\Utils\date_load;
 
 class ReportService extends Service
@@ -195,13 +196,29 @@ class ReportService extends Service
 
     public function generateToken(int $reportId): string
     {
-        return md5(uniqid() . $reportId);
-        // TODO: redis->set($token, $reportId);
+        $token = md5(uniqid() . $reportId);
+
+        di()->get(Redis::class)->set('report:' . $token, (string) $reportId, 3600);
+
+        return $token;
+    }
+
+    public function getReportIdFromToken(string $token): int
+    {
+        $id = (int) di()->get(Redis::class)->get('report:' . $token);
+        if (! $id) {
+            throw new BusinessException(ErrorCode::REPORT_TOKEN_EXPIRED);
+        }
+
+        return $id;
     }
 
     public function items(int $reportId)
     {
-        $models = $this->item->findByReportId($reportId);
-        return di()->get(ReportItemFormatter::class)->formatList($models);
+        $model = $this->dao->first($reportId, true);
+
+        $model->load('items');
+
+        return $this->formatter->base($model);
     }
 }
