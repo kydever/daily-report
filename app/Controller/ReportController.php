@@ -53,4 +53,13 @@ class ReportController extends Controller
 
         return $this->response->success($result);
     }
+
+    public function items(string $token)
+    {
+        // TODO: $reportId = redis->get($token);
+        $reportId = 1;
+        $result = $this->service->items($reportId);
+
+        return $this->response->success($result);
+    }
 }
