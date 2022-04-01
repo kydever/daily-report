@@ -21,7 +21,7 @@ return [
         'class_map' => [
             Hyperf\Utils\Coroutine::class => BASE_PATH . '/app/Kernel/ClassMap/Coroutine.php',
             Hyperf\Di\Resolver\ResolverDispatcher::class => BASE_PATH . '/app/Kernel/ClassMap/ResolverDispatcher.php',
-            EasyWeChat\Kernel\Traits\InteractWithHttpClient::class => BASE_PATH . '/app/Kernel/ClassMap/InteractWithHttpClient.php',
+            // EasyWeChat\Kernel\Traits\InteractWithHttpClient::class => BASE_PATH . '/app/Kernel/ClassMap/InteractWithHttpClient.php',
         ],
     ],
 ];

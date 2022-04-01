@@ -44,6 +44,7 @@
         "hyperf/server": "3.0.*",
         "hyperf/utils": "3.0.*",
         "hyperf/validation": "3.0.*",
+        "limingxinleo/easywechat-classmap": "^1.0",
         "limingxinleo/feishu": "^4.1",
         "limingxinleo/hyperf-utils": "^3.3",
         "w7corp/easywechat": "^6.2"
