@@ -149,8 +149,8 @@ class ReportService extends Service
                 break;
             case Event::SHOW_ALL_TODAY_REPORT:
                 $report = $this->dao->firstByUserId($user->id);
-                // 生成我的日报 CSV
-                $file = $this->exportCSVToFile($report);
+                // 生成我的日报
+                $file = $this->exportEXCELlToFile($report);
                 // 上传临时素材
                 $mediaId = di()->get(WeChatService::class)->uploadMedia(
                     $file,
@@ -230,7 +230,7 @@ class ReportService extends Service
         return $this->formatter->base($model);
     }
 
-    public function exportExcelToFile(Report $report): string
+    public function exportEXCELlToFile(Report $report): string
     {
         $data = [];
         foreach ($report->items as $v) {
