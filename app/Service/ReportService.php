@@ -150,11 +150,11 @@ class ReportService extends Service
             case Event::SHOW_ALL_TODAY_REPORT:
                 $report = $this->dao->firstByUserId($user->id);
                 // 生成我的日报
-                $file = $this->exportEXCELlToFile($report);
+                $file = $this->exportCSVToFile($report);
                 // 上传临时素材
                 $mediaId = di()->get(WeChatService::class)->uploadMedia(
                     $file,
-                    sprintf('%s - %s 日报.xlsx', $user->name, $report->dt)
+                    sprintf('%s - %s 日报.csv', $user->name, $report->dt)
                 );
                 // 发送给用户
                 di()->get(WeChatService::class)->sendMedia($user->open_id, $mediaId);
