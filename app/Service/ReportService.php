@@ -26,6 +26,7 @@ use Han\Utils\Service;
 use Hyperf\AsyncQueue\Annotation\AsyncQueueMessage;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Redis\Redis;
+use Vtiful\Kernel\Excel;
 use function Han\Utils\date_load;
 
 class ReportService extends Service
@@ -148,7 +149,7 @@ class ReportService extends Service
                 break;
             case Event::SHOW_ALL_TODAY_REPORT:
                 $report = $this->dao->firstByUserId($user->id);
-                // 生成我的日报 CSV
+                // 生成我的日报
                 $file = $this->exportCSVToFile($report);
                 // 上传临时素材
                 $mediaId = di()->get(WeChatService::class)->uploadMedia(
@@ -227,6 +228,31 @@ class ReportService extends Service
         $model->load('items');
 
         return $this->formatter->base($model);
+    }
+
+    public function exportEXCELlToFile(Report $report): string
+    {
+        $data = [];
+        foreach ($report->items as $v) {
+            $data[] = [
+                'project' => $v->project,
+                'module' => $v->module,
+                'summary' => $v->summary,
+                'schedule' => ReportItem::SCHEDULE_DEFAULT,
+                'date' => $v->begin_time . ' - ' . $v->end_time,
+            ];
+        }
+
+        $config = [
+            'path' => BASE_PATH . '/runtime/', // xlsx文件保存路径
+        ];
+        $excel = new Excel($config);
+
+        // fileName 会自动创建一个工作表，你可以自定义该工作表名称，工作表名称为可选参数
+        return $excel->fileName($report->id . '_' . uniqid() . '.xlsx', 'sheet1')
+            ->header(['项目', '模块', '工作详情', '进度', '时间'])
+            ->data($data)
+            ->output();
     }
 
     public function exportCSVToFile(Report $report): string
