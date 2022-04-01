@@ -17,7 +17,7 @@ use Hyperf\Command\Command as HyperfCommand;
 use Psr\Container\ContainerInterface;
 
 #[Command]
-class InitWorkBenchTemplateCommand extends HyperfCommand
+class InitWorkCommand extends HyperfCommand
 {
     public function __construct(protected ContainerInterface $container)
     {
