@@ -6586,16 +6586,16 @@
         },
         {
             "name": "w7corp/easywechat",
-            "version": "6.3.1",
+            "version": "6.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/w7corp/easywechat.git",
-                "reference": "65362312ad94e2338cc700d253b357056b8a24ef"
+                "reference": "34d5eb22f61458b2efbe662ae895338b2a66c0a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/w7corp/easywechat/zipball/65362312ad94e2338cc700d253b357056b8a24ef",
-                "reference": "65362312ad94e2338cc700d253b357056b8a24ef",
+                "url": "https://api.github.com/repos/w7corp/easywechat/zipball/34d5eb22f61458b2efbe662ae895338b2a66c0a1",
+                "reference": "34d5eb22f61458b2efbe662ae895338b2a66c0a1",
                 "shasum": ""
             },
             "require": {
@@ -6673,7 +6673,7 @@
             ],
             "support": {
                 "issues": "https://github.com/w7corp/easywechat/issues",
-                "source": "https://github.com/w7corp/easywechat/tree/6.3.1"
+                "source": "https://github.com/w7corp/easywechat/tree/6.3.2"
             },
             "funding": [
                 {
@@ -6681,7 +6681,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-03-31T03:01:23+00:00"
+            "time": "2022-03-31T10:17:14+00:00"
         }
     ],
     "packages-dev": [

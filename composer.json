@@ -59,6 +59,9 @@
         "swoole/ide-helper": "dev-master",
         "symfony/var-dumper": "^5.1"
     },
+    "suggest": {
+        "ext-xlswriter": "*"
+    },
     "autoload": {
         "psr-4": {
             "App\\": "app/",
