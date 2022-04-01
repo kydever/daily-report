@@ -26,8 +26,8 @@ use Han\Utils\Service;
 use Hyperf\AsyncQueue\Annotation\AsyncQueueMessage;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Redis\Redis;
-use function Han\Utils\date_load;
 use Vtiful\Kernel\Excel;
+use function Han\Utils\date_load;
 
 class ReportService extends Service
 {
@@ -230,10 +230,8 @@ class ReportService extends Service
         return $this->formatter->base($model);
     }
 
-    public function exportCSVToFile(Report $report): string
+    public function exportExcelToFile(Report $report): string
     {
-        $fileName = BASE_PATH . '/runtime/' . $report->id . '_' . uniqid() . '.xlsx';
-
         $data = [];
         foreach ($report->items as $v) {
             $data[] = [
@@ -251,10 +249,30 @@ class ReportService extends Service
         $excel = new Excel($config);
 
         // fileName 会自动创建一个工作表，你可以自定义该工作表名称，工作表名称为可选参数
-        $filePath = $excel->fileName($report->id . '_' . uniqid() . '.xlsx', 'sheet1')
+        return $excel->fileName($report->id . '_' . uniqid() . '.xlsx', 'sheet1')
             ->header(['项目', '模块', '工作详情', '进度', '时间'])
             ->data($data)
             ->output();
+    }
+
+    public function exportCSVToFile(Report $report): string
+    {
+        $fileName = BASE_PATH . '/runtime/' . $report->id . '_' . uniqid() . '.csv';
+
+        $stream = fopen($fileName, 'w+');
+        fputcsv($stream, ['项目', '模块', '工作详情', '进度', '时间']);
+
+        foreach ($report->items as $v) {
+            $data = [
+                'project' => $v->project,
+                'module' => $v->module,
+                'summary' => $v->summary,
+                'schedule' => ReportItem::SCHEDULE_DEFAULT,
+                'date' => $v->begin_time . ' - ' . $v->end_time,
+            ];
+            fputcsv($stream, $data);
+        }
+        fclose($stream);
 
         return $fileName;
     }
