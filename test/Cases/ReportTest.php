@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 namespace HyperfTest\Cases;
 
+use App\Service\ReportService;
 use HyperfTest\HttpTestCase;
 use function Han\Utils\date_load;
 
@@ -48,6 +49,14 @@ class ReportTest extends HttpTestCase
 
         $res = $this->delete('/report/item/' . $id);
 
+        $this->assertSame(0, $res['code']);
+    }
+
+    public function testItems()
+    {
+        $token = di()->get(ReportService::class)->generateToken(1);
+        $res = $this->get("/report/{$token}/items");
+        $this->assertNotEmpty($res);
         $this->assertSame(0, $res['code']);
     }
 }
