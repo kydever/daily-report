@@ -2679,16 +2679,16 @@
         },
         {
             "name": "hyperf/utils",
-            "version": "v3.0.0-alpha.5",
+            "version": "v3.0.0-alpha.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/utils.git",
-                "reference": "a2926a3e816623876cbf2ae225c7568c386b9a9a"
+                "reference": "160ea32d6cbb6903e7f0f479b45d59b33c5eb9c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/utils/zipball/a2926a3e816623876cbf2ae225c7568c386b9a9a",
-                "reference": "a2926a3e816623876cbf2ae225c7568c386b9a9a",
+                "url": "https://api.github.com/repos/hyperf/utils/zipball/160ea32d6cbb6903e7f0f479b45d59b33c5eb9c5",
+                "reference": "160ea32d6cbb6903e7f0f479b45d59b33c5eb9c5",
                 "shasum": ""
             },
             "require": {
@@ -2743,7 +2743,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2022-03-14T03:43:17+00:00"
+            "time": "2022-04-12T06:43:18+00:00"
         },
         {
             "name": "hyperf/validation",
