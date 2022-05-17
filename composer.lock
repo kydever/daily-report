@@ -1164,16 +1164,16 @@
         },
         {
             "name": "hyperf/contract",
-            "version": "v3.0.0-alpha.1",
+            "version": "v3.0.0-alpha.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/contract.git",
-                "reference": "e38122f0999ee92173d2efa8f1c297b978719781"
+                "reference": "258261160503bf8c0b028b71e6ef104c4b15fa0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/contract/zipball/e38122f0999ee92173d2efa8f1c297b978719781",
-                "reference": "e38122f0999ee92173d2efa8f1c297b978719781",
+                "url": "https://api.github.com/repos/hyperf/contract/zipball/258261160503bf8c0b028b71e6ef104c4b15fa0d",
+                "reference": "258261160503bf8c0b028b71e6ef104c4b15fa0d",
                 "shasum": ""
             },
             "require": {
@@ -1207,7 +1207,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2022-02-10T05:18:20+00:00"
+            "time": "2022-04-15T08:58:38+00:00"
         },
         {
             "name": "hyperf/coordinator",
@@ -1949,16 +1949,16 @@
         },
         {
             "name": "hyperf/logger",
-            "version": "v3.0.0-alpha.4",
+            "version": "v3.0.0-alpha.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/logger.git",
-                "reference": "b5cfc66ea9229df1d2c8036392fcc828d5a39a45"
+                "reference": "803e269504df8a50db746cb093e71f3d53b3e8bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/logger/zipball/b5cfc66ea9229df1d2c8036392fcc828d5a39a45",
-                "reference": "b5cfc66ea9229df1d2c8036392fcc828d5a39a45",
+                "url": "https://api.github.com/repos/hyperf/logger/zipball/803e269504df8a50db746cb093e71f3d53b3e8bf",
+                "reference": "803e269504df8a50db746cb093e71f3d53b3e8bf",
                 "shasum": ""
             },
             "require": {
@@ -1968,6 +1968,9 @@
                 "php": ">=8.0",
                 "psr/container": "^1.0|^2.0",
                 "psr/log": "^1.0|^2.0|^3.0"
+            },
+            "conflict": {
+                "monolog/monolog": ">=2.6.0"
             },
             "type": "library",
             "extra": {
@@ -2000,7 +2003,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2022-03-01T03:13:47+00:00"
+            "time": "2022-05-16T03:30:34+00:00"
         },
         {
             "name": "hyperf/macroable",
@@ -2679,16 +2682,16 @@
         },
         {
             "name": "hyperf/utils",
-            "version": "v3.0.0-alpha.5",
+            "version": "v3.0.0-alpha.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf/utils.git",
-                "reference": "a2926a3e816623876cbf2ae225c7568c386b9a9a"
+                "reference": "c3d5b6738a436abbb2d0eeb03edf3ea7f5a96f02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf/utils/zipball/a2926a3e816623876cbf2ae225c7568c386b9a9a",
-                "reference": "a2926a3e816623876cbf2ae225c7568c386b9a9a",
+                "url": "https://api.github.com/repos/hyperf/utils/zipball/c3d5b6738a436abbb2d0eeb03edf3ea7f5a96f02",
+                "reference": "c3d5b6738a436abbb2d0eeb03edf3ea7f5a96f02",
                 "shasum": ""
             },
             "require": {
@@ -2743,7 +2746,7 @@
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
             },
-            "time": "2022-03-14T03:43:17+00:00"
+            "time": "2022-04-17T13:00:09+00:00"
         },
         {
             "name": "hyperf/validation",
@@ -3226,16 +3229,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.4.0",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "d7fd7450628561ba697b7097d86db72662f54aef"
+                "reference": "4192345e260f1d51b365536199744b987e160edc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/d7fd7450628561ba697b7097d86db72662f54aef",
-                "reference": "d7fd7450628561ba697b7097d86db72662f54aef",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/4192345e260f1d51b365536199744b987e160edc",
+                "reference": "4192345e260f1d51b365536199744b987e160edc",
                 "shasum": ""
             },
             "require": {
@@ -3309,7 +3312,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.4.0"
+                "source": "https://github.com/Seldaek/monolog/tree/2.5.0"
             },
             "funding": [
                 {
@@ -3321,7 +3324,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-14T12:44:37+00:00"
+            "time": "2022-04-08T15:43:54+00:00"
         },
         {
             "name": "multiplex/multiplex",
